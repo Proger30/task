@@ -22,5 +22,5 @@ COPY wait-for-postgres.sh .
 
 EXPOSE 8080
 
-CMD ["./wait-for-postgres.sh", "postgres:5432", "--", "./web-server-task"]
+CMD ["chmod", "+x", "./wait-for-postgres.sh", "postgres:5432", "--", "./web-server-task"]
 

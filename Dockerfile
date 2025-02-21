@@ -18,9 +18,9 @@ RUN apk add --no-cache postgresql-client
 COPY --from=builder /app/web-server-task .
 COPY --from=builder /app/config.json .
 COPY migrations ./migrations
-COPY wait-for-postgres.sh .
+COPY --chmod=+x wait-for-postgres.sh .
 
 EXPOSE 8080
 
-CMD ["chmod", "+x", "/app/wait-for-postgres.sh", "postgres:5432", "--", "./web-server-task"]
+CMD ["./wait-for-postgres.sh", "postgres:5432", "--", "./web-server-task"]
 

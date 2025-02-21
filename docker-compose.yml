@@ -1,0 +1,50 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8083:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - web-server-net
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=toor
+      - POSTGRES_DB=taskDB
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migrations:/migrations
+    networks:
+      - web-server-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d taskDB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+    networks:
+      - web-server-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  web-server-net:
+    driver: bridge

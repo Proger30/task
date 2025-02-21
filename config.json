@@ -1,0 +1,10 @@
+{
+	"port": ":8080",
+	"dbCredentials": {
+		"userDB": "user",
+		"passwordDB": "toor",
+		"host": "postgres",
+		"port": "5432",
+		"dbName": "taskDB"
+	}
+}

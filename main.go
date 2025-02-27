@@ -20,12 +20,22 @@ func main() {
 	_handler := handler.NewHandler(_cfg, _srv, _db, _rdb)
 
 	r := gin.Default()
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"*"}, // Разрешаем все источники
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+        AllowHeaders:     []string{"Origin", "Content-Type"},
+        AllowCredentials: true,
+        MaxAge:           12 * time.Hour,
+    }))
 
 	r.GET("/iin_check/:iin", _handler.IinCheck)
 
 	p := r.Group("people/info")
-	p.POST("", _handler.PeopleInfoAdd)
+	p.POST("/", _handler.PeopleInfoAdd)
+	p.OPTIONS("/", func(c *gin.Context) {
+		c.Status(200)
+	})
+
 	p.GET("/:attribute/:value", _handler.PeopleInfoGet)
 
 	r.Run(_cfg.Port)

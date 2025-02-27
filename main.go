@@ -5,6 +5,7 @@ import (
 	"Proger30/task/db"
 	"Proger30/task/handler"
 	"Proger30/task/service"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -21,12 +22,12 @@ func main() {
 
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
-        AllowOrigins:     []string{"*"}, // Разрешаем все источники
-        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-        AllowHeaders:     []string{"Origin", "Content-Type"},
-        AllowCredentials: true,
-        MaxAge:           12 * time.Hour,
-    }))
+		AllowOrigins:     []string{"*"}, // Разрешаем все источники
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	r.GET("/iin_check/:iin", _handler.IinCheck)
 

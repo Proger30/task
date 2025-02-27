@@ -21,8 +21,9 @@ func main() {
 	_handler := handler.NewHandler(_cfg, _srv, _db, _rdb)
 
 	r := gin.Default()
+	r.RedirectTrailingSlash = true
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"}, // Разрешаем все источники
+		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type"},
 		AllowCredentials: true,
@@ -32,9 +33,9 @@ func main() {
 	r.GET("/iin_check/:iin", _handler.IinCheck)
 
 	p := r.Group("people/info")
-	p.POST("/", _handler.PeopleInfoAdd)
-	p.OPTIONS("/", func(c *gin.Context) {
-		c.Status(200)
+	p.POST("", _handler.PeopleInfoAdd)
+	p.OPTIONS("", func(c *gin.Context) {
+		c.Status(204)
 	})
 
 	p.GET("/:attribute/:value", _handler.PeopleInfoGet)

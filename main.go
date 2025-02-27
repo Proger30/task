@@ -21,7 +21,7 @@ func main() {
 	_handler := handler.NewHandler(_cfg, _srv, _db, _rdb)
 
 	r := gin.Default()
-	r.RedirectTrailingSlash = true
+	r.RedirectTrailingSlash = false
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},

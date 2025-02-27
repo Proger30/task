@@ -32,7 +32,7 @@ func main() {
 
 	r.GET("/iin_check/:iin", _handler.IinCheck)
 
-	p := r.Group("people/info")
+	p := r.Group("/people/info")
 	p.POST("", _handler.PeopleInfoAdd)
 	p.OPTIONS("", func(c *gin.Context) {
 		c.Status(204)
